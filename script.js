@@ -4,8 +4,12 @@ var bg = new Image();
 var s = new Image();
 bg.src = "images/background.png";
 s.src = "images/s.png";
-x = 20;
-y = 20;
+var x = 20;
+var y = 20;
+var click;
+
+//установка интервала для перемещения
+var myTimer = setInterval(move, 500);
 
 //отрисовка канвы
 function draw() {
@@ -14,20 +18,35 @@ function draw() {
 	requestAnimationFrame(draw);
 }
 
-// перемещение элемента wasd
+// wasd
 document.onkeydown = function(e) {
 	if (e.keyCode==68) {
-		x = x+5;
+		click = 'w';
 		}
 	if (e.keyCode==65) {
-		x = x-5;
+		click ='s';
 		}
 	if (e.keyCode==87) {
-		y = y-5;
+		click = 'a';
 		}
 	if (e.keyCode==83) {
-		y = y+5;
+		click='d';
 		}
+}
+
+function move() {
+	if (click == 'w') {
+		x = x+20;
+	}
+	if (click =='s'){
+		x = x-20;
+	}
+	if (click=='a') {
+		y = y-20;
+	}
+	if (click=='d'){
+		y = y+20;
+	}
 }
 //вызов функции после загрузки картинки
 s.onload = draw;
