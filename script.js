@@ -16,6 +16,9 @@ function draw() {
 	ctx.drawImage(bg,0,0);
 	ctx.drawImage(s,x,y);
 	requestAnimationFrame(draw);
+	
+	ctx.fillStyle = "red"
+	ctx.fillRect(60,60,20,20);
 }
 
 // wasd
