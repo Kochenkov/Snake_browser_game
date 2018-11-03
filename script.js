@@ -1,27 +1,40 @@
 var cvs = document.getElementById("canv1");
 var ctx = cvs.getContext("2d");
-var bg = new Image();
-var s = new Image();
-bg.src = "images/background.png";
-s.src = "images/s.png";
-var x = 20;
-var y = 20;
+var wid = canv1.width;
+var hei = canv1.height;
+var blockSize = 20;
+var row = 2;
+var col = 4;
+// возможно и не надо
+//var x = blockSize*col;
+//var y = blockSize*row;
+//wasd:
 var click;
-
-//установка интервала для перемещения
+//установка интервала для перемещения:
 var myTimer = setInterval(move, 500);
-
-//отрисовка канвы
-function draw() {
-	ctx.drawImage(bg,0,0);
-	ctx.drawImage(s,x,y);
-	requestAnimationFrame(draw);
-	
-	ctx.fillStyle = "red"
-	ctx.fillRect(60,60,20,20);
+//объект блока змейки:
+var Block = function(col,row) {
+	this.col = col;
+	this.row = row;
+	this.drawSquare = function(color) {
+		var x = this.col * blockSize;
+		var y = this.row * blockSize;
+		ctx.fillStyle = color;
+		ctx.fillRect(x, y, blockSize, blockSize);
+	}
 }
 
-// wasd
+var Block1 = new Block(col,row);
+
+//отрисовка канвы:
+function draw() {
+	Block1.col = col;
+	Block1.row = row;
+	Block1.drawSquare("red");
+	//console.log("row: " + row + "; " + "col: " + col);
+}
+
+//wasd:
 document.onkeydown = function(e) {
 	if (e.keyCode==68) {
 		click = 'w';
@@ -39,17 +52,19 @@ document.onkeydown = function(e) {
 
 function move() {
 	if (click == 'w') {
-		x = x+20;
+		col = col+1;
+		draw();
 	}
-	if (click =='s'){
-		x = x-20;
+	else if (click =='s'){
+		col = col-1;
+		draw();
 	}
-	if (click=='a') {
-		y = y-20;
+	else if (click=='a') {
+		row = row-1;
+		draw();
 	}
-	if (click=='d'){
-		y = y+20;
+	else if (click=='d'){
+		row = row+1;
+		draw();
 	}
 }
-//вызов функции после загрузки картинки
-s.onload = draw;
