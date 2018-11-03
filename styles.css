@@ -1,9 +1,18 @@
 #div1 {
-	background-color: black;
-	margin: auto;
+	position:fixed;
 	text-align: center;
+	width:100%;
+	background-color: grey;
+
 }
 #canv1 {
 	margin-top:5px;
 	margin-bottom:5px;
+	background-color: white;
+}
+#div2 {
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	text-align: center;
 }
