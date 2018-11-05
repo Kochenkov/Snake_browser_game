@@ -23,11 +23,11 @@ var Block = function(col,row) {
 }
 //наполняем змейку сегментами:
 var segments = [
-		new Block(col,row),
-		new Block(col-1,row),
-		new Block(col-2,row),
+		new Block(col-4,row),
 		new Block(col-3,row),
-		new Block(col-4,row)
+		new Block(col-2,row),
+		new Block(col-1,row),
+		new Block(col,row)
 	];
 
 //функция отрисовки змейки: 	
