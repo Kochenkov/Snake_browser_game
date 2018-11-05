@@ -3,15 +3,15 @@ var ctx = cvs.getContext("2d");
 var wid = canv1.width;
 var hei = canv1.height;
 var blockSize = 20;
+
 var row = 2;
 var col = 4;
-// возможно и не надо
-//var x = blockSize*col;
-//var y = blockSize*row;
+
 //wasd:
 var click;
 //установка интервала для перемещения:
 var myTimer = setInterval(move, 500);
+
 //объект блока змейки:
 var Block = function(col,row) {
 	this.col = col;
@@ -24,15 +24,21 @@ var Block = function(col,row) {
 	}
 }
 
-var Block1 = new Block(col,row);
+var segments = [
+		new Block(col,row),
+		new Block(col-1,row),
+		new Block(col-2,row)
+	];
+console.log(segments);
+console.log(segments.length);	
+var draw = function() {
+	for(var i=0; i<segments.length; i++) {
+		segments[i].drawSquare('red')
+		console.log([i]);
+		}
+	}
 
-//отрисовка канвы:
-function draw() {
-	Block1.col = col;
-	Block1.row = row;
-	Block1.drawSquare("red");
-	//console.log("row: " + row + "; " + "col: " + col);
-}
+
 
 //wasd:
 document.onkeydown = function(e) {
@@ -54,17 +60,21 @@ function move() {
 	if (click == 'w') {
 		col = col+1;
 		draw();
+		console.log('w');
 	}
 	else if (click =='s'){
 		col = col-1;
 		draw();
+		console.log('s');
 	}
 	else if (click=='a') {
 		row = row-1;
 		draw();
+		console.log('a');
 	}
 	else if (click=='d'){
 		row = row+1;
 		draw();
+		console.log('d');
 	}
 }
