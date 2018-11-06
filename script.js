@@ -47,16 +47,16 @@ var changeSnake = function() {
 
 //обработка событий с кнопок wasd:
 document.onkeydown = function(e) {
-	if (e.keyCode==68) {
+	if ((e.keyCode==68)&&(click!='s')) {
 		click = 'w';
 		}
-	if (e.keyCode==65) {
+	if ((e.keyCode==65)&&(click!='w')) {
 		click = 's';
 		}
-	if (e.keyCode==87) {
+	if ((e.keyCode==87)&&(click!='d')) {
 		click = 'a';
 		}
-	if (e.keyCode==83) {
+	if ((e.keyCode==83)&&(click!='a')) {
 		click = 'd';
 		}
 }
