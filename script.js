@@ -116,4 +116,3 @@ function move() {
 //начало программы:
 eatGenerate();
 draw();
-
