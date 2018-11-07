@@ -11,11 +11,10 @@ var rowRandom;
 var colRandom;
 var click;
 var eat;
-
-
+var count;
 
 //установка интервала для перемещения:
-var myTimer = setInterval(move, 500);
+var myTimer = setInterval(move, 100);
 
 //объект блока змейки:
 var Block = function(col,row) {
@@ -28,8 +27,6 @@ var Block = function(col,row) {
 		ctx.fillRect(x, y, blockSize, blockSize);
 	}
 }
-
-
 	
 //функция генерации случайной строки и столбца для кубика-еды:
 var random = function(){
@@ -38,12 +35,11 @@ var random = function(){
 	console.log('rowRandom: '+rowRandom);
 	console.log('colRandom: '+colRandom);
 }
-//функция позиционирования змейки в заданных случайных координатах:
+//функция позиционирования еды в заданных случайных координатах:
 var eatGenerate = function(){
 	random();
 	eat = new Block(colRandom,rowRandom);
 }
-
 	
 //наполняем змейку сегментами:
 var segments = [
@@ -67,11 +63,33 @@ var draw = function() {
 	eat.drawSquare("blue");
 }
 	
-//функция изменения позиции змейки:
+//функция изменения позиции змейки, съедения еды, увеличения длины и обработка смерти:
 var changeSnake = function() {
 	segments.push(new Block(col,row));
 	segments.shift();
+	//столкновение с самим собой
+	for(var i=0; i<(segments.length-1); i++) {
+		if ((segments[(segments.length-1)].col==segments[i].col)&&(segments[(segments.length-1)].row==segments[i].row)){
+			alert('Вы проиграли');   
+		}
+	}
+	//столкновение со стенами
+	if ((segments[(segments.length-1)].col==-1)||
+		(segments[(segments.length-1)].row==-1)||
+		(segments[(segments.length-1)].col==colMax)||
+		(segments[(segments.length-1)].row==rowMax)){
+			
+		alert('Вы проиграли');	
+	}
+				
+	//увеличение длины и генерация нового куска еды
+	if ((segments[(segments.length-1)].col == colRandom)&&(segments[(segments.length-1)].row == rowRandom)){	
+		segments.push(new Block(col,row));
+		eatGenerate();	
+	}
 }
+
+
 
 //обработка событий с кнопок wasd:
 document.onkeydown = function(e) {
@@ -116,3 +134,5 @@ function move() {
 //начало программы:
 eatGenerate();
 draw();
+
+//нужно добавить перезагрузку после смерти, а так же счетчик!
