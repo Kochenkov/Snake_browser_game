@@ -9,9 +9,12 @@ var row = 5;
 var col = 6;
 var rowRandom;
 var colRandom;
-var click;
+var click = 'd';
 var eat;
-var count;
+var countLabel = document.getElementById("countLabel");
+
+
+
 
 //установка интервала для перемещения:
 var myTimer = setInterval(move, 100);
@@ -32,8 +35,6 @@ var Block = function(col,row) {
 var random = function(){
 	rowRandom = Math.round(Math.random()*(rowMax-1));
 	colRandom = Math.round(Math.random()*(colMax-1));
-	console.log('rowRandom: '+rowRandom);
-	console.log('colRandom: '+colRandom);
 }
 //функция позиционирования еды в заданных случайных координатах:
 var eatGenerate = function(){
@@ -43,13 +44,14 @@ var eatGenerate = function(){
 	
 //наполняем змейку сегментами:
 var segments = [
-		new Block(col-4,row),
-		new Block(col-3,row),
 		new Block(col-2,row),
 		new Block(col-1,row),
 		new Block(col,row)
 	];	
 	
+var countLen = segments.length;
+countLabel.innerHTML = 'Длина змеи: '+ countLen;
+
 //функция отрисовки змейки: 	
 var draw = function() {
 	//рисуем белый фон который все перекрывает
@@ -62,7 +64,11 @@ var draw = function() {
 	//рисуем кусок еды
 	eat.drawSquare("blue");
 }
-	
+//показывается после смерти:
+var death = function(){
+	alert('Вы проиграли. Ваша итоговая длина: '+countLen); 
+	location.reload();	
+}
 //функция изменения позиции змейки, съедения еды, увеличения длины и обработка смерти:
 var changeSnake = function() {
 	segments.push(new Block(col,row));
@@ -70,7 +76,7 @@ var changeSnake = function() {
 	//столкновение с самим собой
 	for(var i=0; i<(segments.length-1); i++) {
 		if ((segments[(segments.length-1)].col==segments[i].col)&&(segments[(segments.length-1)].row==segments[i].row)){
-			alert('Вы проиграли');   
+			death();		
 		}
 	}
 	//столкновение со стенами
@@ -78,53 +84,53 @@ var changeSnake = function() {
 		(segments[(segments.length-1)].row==-1)||
 		(segments[(segments.length-1)].col==colMax)||
 		(segments[(segments.length-1)].row==rowMax)){
-			
-		alert('Вы проиграли');	
+		death();		
 	}
 				
 	//увеличение длины и генерация нового куска еды
 	if ((segments[(segments.length-1)].col == colRandom)&&(segments[(segments.length-1)].row == rowRandom)){	
 		segments.push(new Block(col,row));
-		eatGenerate();	
+		eatGenerate();
+		countLen = countLen+1;	
+		console.log('Длина: '+countLen);	
+		countLabel.innerHTML = 'Длина змеи: '+ countLen;
 	}
 }
 
-
-
 //обработка событий с кнопок wasd:
 document.onkeydown = function(e) {
-	if ((e.keyCode==68)&&(click!='s')) {
-		click = 'w';
+	if ((e.keyCode==68)&&(click!='a')) {
+		click = 'd';
 	}
-	if ((e.keyCode==65)&&(click!='w')) {
-		click = 's';
-	}
-	if ((e.keyCode==87)&&(click!='d')) {
+	if ((e.keyCode==65)&&(click!='d')) {
 		click = 'a';
 	}
-	if ((e.keyCode==83)&&(click!='a')) {
-		click = 'd';
+	if ((e.keyCode==87)&&(click!='s')) {
+		click = 'w';
+	}
+	if ((e.keyCode==83)&&(click!='w')) {
+		click = 's';
 	}
 }
 
 //события изменения координат блоков по нажатию на кнопки:
 function move() {
-	if (click == 'w') {
+	if (click == 'd') {
 		col = col+1;
 		changeSnake();
 		draw();
 	}
-	else if (click =='s'){
+	else if (click =='a'){
 		col = col-1;
 		changeSnake();
 		draw();
 	}
-	else if (click=='a') {
+	else if (click=='w') {
 		row = row-1;
 		changeSnake();
 		draw();
 	}
-	else if (click=='d'){
+	else if (click=='s'){
 		row = row+1;
 		changeSnake();
 		draw();
@@ -134,5 +140,5 @@ function move() {
 //начало программы:
 eatGenerate();
 draw();
+alert('Управление змейкой осуществляется клавишами w,a,s,d. Если готовы начать, нажмите ОК'); 
 
-//нужно добавить перезагрузку после смерти, а так же счетчик!
