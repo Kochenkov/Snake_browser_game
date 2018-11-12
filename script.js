@@ -36,6 +36,13 @@ var Block = function(col,row) {
 var random = function(){
 	rowRandom = Math.round(Math.random()*(rowMax-1));
 	colRandom = Math.round(Math.random()*(colMax-1));
+	for(var i=0; i<(segments.length-1); i++) {
+		if ((segments[i].col==colRandom)&&(segments[i].row==rowRandom)){
+			console.log('совпадение!');
+			random();
+			break;			
+		}
+	}		
 }
 //функция позиционирования еды в заданных случайных координатах:
 var eatGenerate = function(){
