@@ -9,15 +9,16 @@ var row = 5;
 var col = 6;
 var rowRandom;
 var colRandom;
-var click = 'd';
+var click = 'd'; //начальное направление змеи
 var eat;
 var countLabel = document.getElementById("countLabel");
-
+var interval = 200; //скорость движения змеи
 
 
 
 //установка интервала для перемещения:
-var myTimer = setInterval(move, 100);
+var myTimer = setInterval(move, interval);
+
 
 //объект блока змейки:
 var Block = function(col,row) {
@@ -96,20 +97,30 @@ var changeSnake = function() {
 		countLabel.innerHTML = 'Длина змеи: '+ countLen;
 	}
 }
+//функция для решения проблемы с быстрым переключением направления, в процессе добавилась фича по ускорению:
+var superSpeed = function(){
+	clearInterval(myTimer);
+	move();
+	myTimer = setInterval(move, interval);
+}
 
 //обработка событий с кнопок wasd:
 document.onkeydown = function(e) {
 	if ((e.keyCode==68)&&(click!='a')) {
 		click = 'd';
+		superSpeed();
 	}
 	if ((e.keyCode==65)&&(click!='d')) {
 		click = 'a';
+		superSpeed();
 	}
 	if ((e.keyCode==87)&&(click!='s')) {
 		click = 'w';
+		superSpeed();
 	}
 	if ((e.keyCode==83)&&(click!='w')) {
 		click = 's';
+		superSpeed();
 	}
 }
 
